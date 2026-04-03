@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "../context/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -7,14 +8,18 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "ARSY Frucht | Най-вкусните ябълки в България",
-  description: "ARSY Frucht - 100% натурално производство на ябълки, сокове, оцет и ракия от сърцето на планината в Първомай, България.",
+  title: "ARSY Frucht",
+  description: "ARSY Frucht - 100% natural production of apples, juice, vinegar and rakia from Parvomay, Bulgaria.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="bg" className={`${inter.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${inter.variable}`}>
+      <body>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

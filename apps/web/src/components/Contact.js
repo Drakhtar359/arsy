@@ -1,33 +1,36 @@
 "use client";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Contact() {
+  const { t } = useLanguage();
+
   return (
     <section id="contact" className="section container">
-      <h2 className="section-title">Контакти & Поръчки</h2>
+      <h2 className="section-title">{t("contact.title")}</h2>
       <div style={styles.contactWrapper} className="glass">
         <div style={styles.infoSide}>
-          <h3 style={styles.subTitle}>Свържете се с нас</h3>
-          <p style={styles.desc}>Имате въпроси или искате да направите поръчка? Ние сме на разположение!</p>
+          <h3 style={styles.subTitle}>{t("contact.subtitle")}</h3>
+          <p style={styles.desc}>{t("contact.desc")}</p>
           <div style={styles.infoItem}>
             <span style={styles.icon}><Phone color="var(--color-primary-light)" size={32} /></span>
             <div>
-              <strong style={{display: 'block'}}>Телефон</strong>
+              <strong style={{display: 'block'}}>{t("contact.phone")}</strong>
               <span>089 797 8534</span>
             </div>
           </div>
           <div style={styles.infoItem}>
             <span style={styles.icon}><Mail color="var(--color-primary-light)" size={32} /></span>
             <div>
-              <strong style={{display: 'block'}}>Имейл</strong>
+              <strong style={{display: 'block'}}>{t("contact.email")}</strong>
               <span>arsyfrucht@abv.bg</span>
             </div>
           </div>
           <div style={styles.infoItem}>
             <span style={styles.icon}><MapPin color="var(--color-primary-light)" size={32} /></span>
             <div>
-              <strong style={{display: 'block'}}>Адрес</strong>
-              <span>2890 Първомай, България</span>
+              <strong style={{display: 'block'}}>{t("contact.address")}</strong>
+              <span>{t("contact.addressInfo")}</span>
             </div>
           </div>
         </div>
@@ -35,19 +38,19 @@ export default function Contact() {
         <div style={styles.formSide}>
           <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
             <div style={styles.inputGroup}>
-              <label style={styles.label}>Име</label>
-              <input type="text" className="input-field" placeholder="Вашето име" />
+              <label style={styles.label}>{t("contact.formName")}</label>
+              <input type="text" className="input-field" placeholder={t("contact.formNamePlaceholder")} />
             </div>
             <div style={styles.inputGroup}>
-              <label style={styles.label}>Телефон / Имейл</label>
-              <input type="text" className="input-field" placeholder="За обратна връзка" />
+              <label style={styles.label}>{t("contact.formContact")}</label>
+              <input type="text" className="input-field" placeholder={t("contact.formContactPlaceholder")} />
             </div>
             <div style={styles.inputGroup}>
-              <label style={styles.label}>Съобщение</label>
-              <textarea className="input-field" rows="4" placeholder="Какво бихте искали да поръчате?"></textarea>
+              <label style={styles.label}>{t("contact.formMessage")}</label>
+              <textarea className="input-field" rows="4" placeholder={t("contact.formMessagePlaceholder")}></textarea>
             </div>
             <button className="btn btn-primary" style={{width: '100%', marginTop: '1rem'}}>
-              Изпрати запитване
+              {t("contact.formSubmit")}
             </button>
           </form>
         </div>

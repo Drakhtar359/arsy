@@ -1,25 +1,24 @@
+"use client";
+
 import { Leaf } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="section container">
-      <h2 className="section-title">За Нас</h2>
+      <h2 className="section-title">{t("about.title")}</h2>
       <div style={styles.aboutGrid}>
         <div style={styles.textContainer}>
-          <p style={styles.paragraph}>
-            Добре дошли в <strong>ARSY Frucht</strong>! Ние сме горди производители на най-вкусните ябълки в България. Нашите овощни градини се намират в сърцето на живописния регион на Първомай, където чистият планински въздух и благоприятният климат създават перфектните условия за отглеждане на първокачествени плодове.
-          </p>
-          <p style={styles.paragraph}>
-            Нашата мисия е да предложим на трапезата ви 100% натурални и здравословни продукти. От брането на свежите ябълки до производството на нашите студено пресовани сокове, органичен оцет и традиционна ракия &mdash; ние спазваме най-високите стандарти за качество и безкомпромисност към вкуса.
-          </p>
-          <p style={{ ...styles.paragraph, color: 'var(--color-primary)', fontWeight: 600 }}>
-            ARSY Frucht &ndash; от градината директно във вашия дом.
-          </p>
+          <p style={styles.paragraph} dangerouslySetInnerHTML={{ __html: t("about.p1") }}></p>
+          <p style={styles.paragraph} dangerouslySetInnerHTML={{ __html: t("about.p2") }}></p>
+          <p style={{ ...styles.paragraph, color: 'var(--color-primary)', fontWeight: 600 }} dangerouslySetInnerHTML={{ __html: t("about.p3") }}></p>
         </div>
         <div style={styles.imagePlaceholder}>
           <div>
              <Leaf size={64} color="var(--color-primary)" style={{ display: 'block', margin: '0 auto 1rem auto' }} />
-             <h3>Натурално Производство</h3>
+             <h3>{t("about.flagText")}</h3>
           </div>
         </div>
       </div>

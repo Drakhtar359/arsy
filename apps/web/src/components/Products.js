@@ -1,16 +1,22 @@
+"use client";
+
 import { Apple, CupSoda, FlaskConical, Wine } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Products() {
+  const { t } = useLanguage();
+  const rawItems = t("products.items");
+
   const products = [
-    { title: "Пресни Ябълки", icon: <Apple size={48} color="var(--color-primary)" />, desc: "Свежи сортове ябълки от нашите градини, отгледани с любов и грижа към природата." },
-    { title: "100% Натурален Сок", icon: <CupSoda size={48} color="var(--color-primary)" />, desc: "Студено пресован сок (ябълка; ябълка, цвекло и моркови) в удобни Bag-in-Box опаковки без захар." },
-    { title: "Натурален Оцет", icon: <FlaskConical size={48} color="var(--color-primary)" />, desc: "Истински, жив плодов оцет, запазил всички полезни свойства на плода." },
-    { title: "Традиционна Ракия", icon: <Wine size={48} color="var(--color-primary)" />, desc: "Еликсир за ценители – традиционна ракия, дестилирана от прецизно подбрани плодове." }
+    { title: rawItems[0]?.title, icon: <Apple size={48} color="var(--color-primary)" />, desc: rawItems[0]?.desc },
+    { title: rawItems[1]?.title, icon: <CupSoda size={48} color="var(--color-primary)" />, desc: rawItems[1]?.desc },
+    { title: rawItems[2]?.title, icon: <FlaskConical size={48} color="var(--color-primary)" />, desc: rawItems[2]?.desc },
+    { title: rawItems[3]?.title, icon: <Wine size={48} color="var(--color-primary)" />, desc: rawItems[3]?.desc }
   ];
 
   return (
     <section id="products" className="section container">
-      <h2 className="section-title">Нашите Продукти</h2>
+      <h2 className="section-title">{t("products.title")}</h2>
       <div style={styles.grid}>
         {products.map((p, i) => (
           <div key={i} className="product-card glass" style={styles.card}>

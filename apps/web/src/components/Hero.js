@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <header style={styles.heroWrapper} id="home">
       <div style={styles.bgImage}>
@@ -14,13 +19,14 @@ export default function Hero() {
       </div>
       <div className="container" style={styles.content}>
         <div style={styles.glassBox} className="glass">
-          <h1 style={styles.title}>Най-вкусните ябълки в <span style={{color: 'var(--color-primary)'}}>България</span></h1>
-          <p style={styles.subtitle}>
-            100% натурално производство от чистия планински въздух на Първомай, Югозападна България.
-          </p>
+          <h1 style={styles.title}>
+            {t("hero.titleBase")}
+            <span style={{color: 'var(--color-primary)'}}>{t("hero.titleHighlight")}</span>
+          </h1>
+          <p style={styles.subtitle}>{t("hero.subtitle")}</p>
           <div style={styles.buttonGroup}>
-            <a href="#products" className="btn btn-primary">Разгледай продуктите</a>
-            <a href="#contact" className="btn btn-accent">Свържете се с нас</a>
+            <a href="#products" className="btn btn-primary">{t("hero.btnProducts")}</a>
+            <a href="#contact" className="btn btn-accent">{t("hero.btnContact")}</a>
           </div>
         </div>
       </div>

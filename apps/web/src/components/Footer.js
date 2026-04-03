@@ -1,20 +1,25 @@
+"use client";
+import { useLanguage } from "../context/LanguageContext";
+
 export default function Footer() {
+  const { t } = useLanguage();
   const year = new Date().getFullYear();
+
   return (
     <footer style={styles.footer}>
       <div className="container" style={styles.container}>
         <div style={styles.brand}>
           <h3 style={{...styles.logo, color: 'white'}}><span style={{color: 'var(--color-primary-light)'}}>ARSY</span> Frucht</h3>
-          <p style={styles.text}>100% натурално производство от България.</p>
+          <p style={styles.text}>{t("footer.desc")}</p>
         </div>
         <div style={styles.socials}>
           <a href="https://www.facebook.com/arsyfrucht/" target="_blank" rel="noopener noreferrer" className="social-link">
-            Facebook Страница
+            {t("footer.fb")}
           </a>
         </div>
       </div>
       <div style={styles.bottom}>
-        <p>&copy; {year} ARSY Frucht. Всички права запазени.</p>
+        <p>&copy; {year} ARSY Frucht. {t("footer.rights")}</p>
       </div>
     </footer>
   );

@@ -1,14 +1,27 @@
+"use client";
+
+import { useLanguage } from "../context/LanguageContext";
+import { Globe } from "lucide-react";
+
 export default function Navbar() {
+  const { t, lang, toggleLang } = useLanguage();
+
   return (
     <nav style={styles.nav} className="glass">
       <div className="container" style={styles.navContainer}>
         <a href="#" style={styles.logo}>
           <span style={styles.logoGreen}>ARSY</span> Frucht
         </a>
-        <div style={styles.navLinks}>
-          <a href="#about" style={styles.link}>За Нас</a>
-          <a href="#products" style={styles.link}>Продукти</a>
-          <a href="#contact" style={styles.link}>Контакти</a>
+        <div style={styles.rightSide}>
+          <div style={styles.navLinks}>
+            <a href="#about" style={styles.link}>{t("nav.about")}</a>
+            <a href="#products" style={styles.link}>{t("nav.products")}</a>
+            <a href="#contact" style={styles.link}>{t("nav.contact")}</a>
+          </div>
+          <button onClick={toggleLang} style={styles.langToggle} className="btn-lang" title="Change Language">
+            <Globe size={18} />
+            <span>{lang === "bg" ? "EN" : "БГ"}</span>
+          </button>
         </div>
       </div>
     </nav>
@@ -20,6 +33,20 @@ const styles = {
   navContainer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   logo: { fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-text-main)', letterSpacing: '-0.05em' },
   logoGreen: { color: 'var(--color-primary)' },
+  rightSide: { display: 'flex', alignItems: 'center', gap: '2rem' },
   navLinks: { display: 'flex', gap: '2rem', fontWeight: '500' },
-  link: { transition: 'var(--transition-normal)' }
+  link: { transition: 'var(--transition-normal)' },
+  langToggle: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    background: 'transparent',
+    border: '1px solid var(--color-primary)',
+    color: 'var(--color-primary)',
+    padding: '0.4rem 0.8rem',
+    borderRadius: '20px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'var(--transition-normal)'
+  }
 }
