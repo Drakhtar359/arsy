@@ -1,3 +1,5 @@
+import { Leaf } from "lucide-react";
+
 export default function About() {
   return (
     <section id="about" className="section container">
@@ -16,7 +18,7 @@ export default function About() {
         </div>
         <div style={styles.imagePlaceholder}>
           <div>
-             <span style={{fontSize: '4rem', display: 'block', marginBottom: '1rem' }}>🍏</span>
+             <Leaf size={64} color="var(--color-primary)" style={{ display: 'block', margin: '0 auto 1rem auto' }} />
              <h3>Натурално Производство</h3>
           </div>
         </div>

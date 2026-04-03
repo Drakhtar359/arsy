@@ -1,4 +1,5 @@
 "use client";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Contact() {
   return (
@@ -9,21 +10,21 @@ export default function Contact() {
           <h3 style={styles.subTitle}>Свържете се с нас</h3>
           <p style={styles.desc}>Имате въпроси или искате да направите поръчка? Ние сме на разположение!</p>
           <div style={styles.infoItem}>
-            <span style={styles.icon}>☎️</span>
+            <span style={styles.icon}><Phone color="var(--color-primary-light)" size={32} /></span>
             <div>
               <strong style={{display: 'block'}}>Телефон</strong>
               <span>089 797 8534</span>
             </div>
           </div>
           <div style={styles.infoItem}>
-            <span style={styles.icon}>✉️</span>
+            <span style={styles.icon}><Mail color="var(--color-primary-light)" size={32} /></span>
             <div>
               <strong style={{display: 'block'}}>Имейл</strong>
               <span>arsyfrucht@abv.bg</span>
             </div>
           </div>
           <div style={styles.infoItem}>
-            <span style={styles.icon}>📍</span>
+            <span style={styles.icon}><MapPin color="var(--color-primary-light)" size={32} /></span>
             <div>
               <strong style={{display: 'block'}}>Адрес</strong>
               <span>2890 Първомай, България</span>
@@ -61,7 +62,7 @@ const styles = {
   subTitle: { fontSize: '2rem', marginBottom: '1rem', color: 'white' },
   desc: { marginBottom: '3rem', color: 'var(--color-primary-light)', fontSize: '1.1rem' },
   infoItem: { display: 'flex', gap: '1.5rem', marginBottom: '2rem', alignItems: 'center' },
-  icon: { fontSize: '2rem' },
+  icon: { display: 'flex' },
   formSide: { flex: '2 1 400px', padding: '4rem 3rem', backgroundColor: 'var(--color-bg-card)' },
   form: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
   inputGroup: { display: 'flex', flexDirection: 'column', gap: '0.5rem' },
