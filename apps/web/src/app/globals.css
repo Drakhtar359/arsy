@@ -239,16 +239,23 @@ img {
 .expand-closed {
   position: absolute;
   bottom: 2rem;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   z-index: 3;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  padding: 0 1rem;
+  transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
   text-align: center;
+}
+
+.expand-card:hover .expand-closed {
+  opacity: 0;
+  transform: translate(-50%, -20px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
 }
 
 .expand-icon {
@@ -271,27 +278,24 @@ img {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 600px; /* Fixed width prevents reflow squishing when shrinking */
   padding: 3rem;
   z-index: 4;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Fast fade out on unhover */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-}
-
-.expand-card:hover .expand-closed {
-  opacity: 0;
-  transform: translateY(-20px);
   pointer-events: none;
 }
 
 .expand-card:hover .expand-content {
   opacity: 1;
   transform: translateY(0);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s; /* Slow fade in on hover */
+  pointer-events: auto;
 }
 
 .expand-icon-small {
@@ -317,21 +321,42 @@ img {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
   line-height: 1.6;
-  max-width: 600px;
 }
 
 /* Mobile Responsiveness for expanding cards */
 @media (max-width: 900px) {
   .expand-container {
     flex-direction: column;
-    height: 800px;
+    height: auto;
+    gap: 1.5rem;
   }
   
-  .expand-title-large {
-    font-size: 1.75rem;
+  .expand-card {
+    flex: none;
+    height: 350px;
+  }
+  
+  .expand-card:hover {
+    flex: none;
+  }
+  
+  .expand-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 100%);
+  }
+
+  .expand-closed {
+    display: none;
   }
   
   .expand-content {
+    width: 100%;
     padding: 2rem;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .expand-title-large {
+    font-size: 2rem;
   }
 }
