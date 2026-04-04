@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer() {
@@ -9,7 +10,9 @@ export default function Footer() {
     <footer style={styles.footer}>
       <div className="container" style={styles.container}>
         <div style={styles.brand}>
-          <h3 style={{...styles.logo, color: 'white'}}><span style={{color: 'var(--color-primary-light)'}}>ARSY</span> Frucht</h3>
+          <div style={styles.logoWrapper}>
+            <Image src="/logo.png" alt="ARSY Frucht" width={90} height={90} style={{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+          </div>
           <p style={styles.text}>{t("footer.desc")}</p>
         </div>
         <div style={styles.socials}>
@@ -29,7 +32,7 @@ const styles = {
   footer: { backgroundColor: 'var(--color-text-main)', color: 'white', paddingTop: '4rem' },
   container: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem', marginBottom: '3rem' },
   brand: { flex: '1' },
-  logo: { fontSize: '1.75rem', marginBottom: '0.5rem', letterSpacing: '-0.05em' },
+  logoWrapper: { marginBottom: '1rem' },
   text: { color: '#9CA3AF' },
   socials: { display: 'flex', gap: '1rem' },
   bottom: { borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', padding: '2rem 0', color: '#9CA3AF', fontSize: '0.875rem' }

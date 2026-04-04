@@ -180,3 +180,158 @@ img {
   background-color: rgba(255,255,255,0.15);
   border-color: rgba(255,255,255,0.4);
 }
+
+/* Expanding Cards UI */
+.expand-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 550px;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.expand-card {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: var(--shadow-md);
+}
+
+.expand-card:hover {
+  flex: 4;
+}
+
+.expand-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  transition: transform 0.6s ease;
+}
+
+.expand-card:hover .expand-bg {
+  transform: scale(1.05);
+}
+
+.expand-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+  z-index: 2;
+  transition: background 0.6s ease;
+}
+
+.expand-card:hover .expand-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 100%);
+}
+
+.expand-closed {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 3;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.expand-icon {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+}
+
+.expand-title {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  white-space: normal;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.expand-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 3rem;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.expand-card:hover .expand-closed {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.expand-card:hover .expand-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.expand-icon-small {
+  margin-bottom: 1rem;
+  display: inline-block;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.expand-title-large {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  white-space: normal;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.expand-desc {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* Mobile Responsiveness for expanding cards */
+@media (max-width: 900px) {
+  .expand-container {
+    flex-direction: column;
+    height: 800px;
+  }
+  
+  .expand-title-large {
+    font-size: 1.75rem;
+  }
+  
+  .expand-content {
+    padding: 2rem;
+  }
+}

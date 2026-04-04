@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 import { Globe } from "lucide-react";
 
@@ -9,8 +10,8 @@ export default function Navbar() {
   return (
     <nav style={styles.nav} className="glass">
       <div className="container" style={styles.navContainer}>
-        <a href="#" style={styles.logo}>
-          <span style={styles.logoGreen}>ARSY</span> Frucht
+        <a href="#" style={styles.logoLink}>
+          <Image src="/logo.png" alt="ARSY Frucht" width={60} height={60} style={styles.logoImg} />
         </a>
         <div style={styles.rightSide}>
           <div style={styles.navLinks}>
@@ -31,8 +32,8 @@ export default function Navbar() {
 const styles = {
   nav: { position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000, padding: '1rem 0' },
   navContainer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  logo: { fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-text-main)', letterSpacing: '-0.05em' },
-  logoGreen: { color: 'var(--color-primary)' },
+  logoLink: { display: 'flex', alignItems: 'center' },
+  logoImg: { objectFit: 'contain' },
   rightSide: { display: 'flex', alignItems: 'center', gap: '2rem' },
   navLinks: { display: 'flex', gap: '2rem', fontWeight: '500' },
   link: { transition: 'var(--transition-normal)' },
