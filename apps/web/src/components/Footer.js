@@ -22,7 +22,10 @@ export default function Footer() {
         </div>
       </div>
       <div style={styles.bottom}>
-        <p>&copy; {year} ARSY Frucht. {t("footer.rights")}</p>
+        <p style={{ marginBottom: '0.5rem' }}>&copy; {year} ARSY Frucht. {t("footer.rights")}</p>
+        <p style={{ fontSize: '0.8rem', color: '#6B7280' }}>
+          {t("footer.developedBy")} <a href="https://mozuk.net" target="_blank" rel="noopener noreferrer" style={styles.mozukLink}>MOZUK</a> &copy; 2026 - {t("footer.rights")}
+        </p>
       </div>
     </footer>
   );
@@ -35,5 +38,6 @@ const styles = {
   logoWrapper: { marginBottom: '1rem' },
   text: { color: '#9CA3AF' },
   socials: { display: 'flex', gap: '1rem' },
-  bottom: { borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', padding: '2rem 0', color: '#9CA3AF', fontSize: '0.875rem' }
+  bottom: { borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', padding: '2rem 0', color: '#9CA3AF', fontSize: '0.875rem' },
+  mozukLink: { color: 'var(--color-primary-light)', textDecoration: 'none', fontWeight: 'bold' }
 }

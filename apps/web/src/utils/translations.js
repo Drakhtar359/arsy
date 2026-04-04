@@ -47,7 +47,8 @@ export const translations = {
     footer: {
       desc: "100% натурално производство от България.",
       fb: "Facebook Страница",
-      rights: "Всички права запазени."
+      rights: "Всички права запазени.",
+      developedBy: "Разработено от"
     }
   },
   en: {
@@ -98,7 +99,8 @@ export const translations = {
     footer: {
       desc: "100% natural production from Bulgaria.",
       fb: "Facebook Page",
-      rights: "All rights reserved."
+      rights: "All rights reserved.",
+      developedBy: "Developed by"
     }
   }
 };
