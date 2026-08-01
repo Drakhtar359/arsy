@@ -8,8 +8,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 export default function AppleSlider() {
   const { t } = useLanguage();
   const applesList = t("apples.items") || [];
-  const tasteLabel = t("apples.tasteLabel");
-  const harvestLabel = t("apples.harvestLabel");
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleSlides, setVisibleSlides] = useState(1);
@@ -113,7 +111,7 @@ export default function AppleSlider() {
           <div 
             style={{ 
               ...styles.track, 
-              transform: `translateX(-${currentIndex * 100}%)`,
+              transform: `translateX(-${currentIndex * (100 / pages.length)}%)`,
               width: `${pages.length * 100}%` 
             }}
             className="slider-track"
@@ -154,16 +152,6 @@ export default function AppleSlider() {
                           <span style={styles.varietyType}>{apple.type}</span>
                         </div>
                         <p style={styles.cardDesc}>{apple.desc}</p>
-                        <div style={styles.cardMeta}>
-                          <div style={styles.metaItem}>
-                            <span style={styles.metaLabel}>{tasteLabel}:</span>
-                            <span style={styles.metaValue}>{apple.taste}</span>
-                          </div>
-                          <div style={styles.metaItem}>
-                            <span style={styles.metaLabel}>{harvestLabel}:</span>
-                            <span style={styles.metaValue}>{apple.harvest}</span>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
