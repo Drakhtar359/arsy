@@ -15,19 +15,19 @@ export default function AppleSlider() {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
-  // Determine how many slides are visible per page based on viewport
+  // Determine how many slides are visible based on viewport
   useEffect(() => {
     const handleResize = () => {
       let slides = 1;
       if (window.innerWidth >= 1024) {
-        slides = 4; // 4 items per page on desktop
+        slides = 4; // 4 items visible on desktop
       } else if (window.innerWidth >= 640) {
-        slides = 2; // 2 items per page on tablet (results in 4 pages)
+        slides = 2; // 2 items visible on tablet
       }
       setVisibleSlides(slides);
       
-      const pageCount = Math.ceil(applesList.length / slides);
-      setCurrentIndex((prev) => Math.min(prev, Math.max(0, pageCount - 1)));
+      const maxIdx = applesList.length - slides;
+      setCurrentIndex((prev) => Math.min(prev, Math.max(0, maxIdx)));
     };
 
     handleResize();
@@ -35,28 +35,24 @@ export default function AppleSlider() {
     return () => window.removeEventListener("resize", handleResize);
   }, [applesList.length]);
 
-  // Group apples list into pages
-  const pages = [];
-  for (let i = 0; i < applesList.length; i += visibleSlides) {
-    pages.push(applesList.slice(i, i + visibleSlides));
-  }
+  const maxIndex = Math.max(0, applesList.length - visibleSlides);
 
-  // Auto-play cycling
+  // Auto-play cycling (one direction: forward/right)
   useEffect(() => {
-    if (!isPaused && pages.length > 0) {
+    if (!isPaused && applesList.length > 0) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev >= pages.length - 1 ? 0 : prev + 1));
+        setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
       }, 4000);
       return () => clearInterval(interval);
     }
-  }, [isPaused, pages.length]);
+  }, [isPaused, maxIndex, applesList.length]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? pages.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === pages.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const handleTouchStart = (e) => {
@@ -84,7 +80,7 @@ export default function AppleSlider() {
     setTouchEnd(null);
   };
 
-  if (!applesList || applesList.length === 0 || pages.length === 0) return null;
+  if (!applesList || applesList.length === 0) return null;
 
   return (
     <section id="apples" className="section container" style={styles.section}>
@@ -111,51 +107,39 @@ export default function AppleSlider() {
           <div 
             style={{ 
               ...styles.track, 
-              transform: `translateX(-${currentIndex * (100 / pages.length)}%)`,
-              width: `${pages.length * 100}%` 
+              transform: `translateX(-${currentIndex * (100 / applesList.length)}%)`,
+              width: `${(applesList.length / visibleSlides) * 100}%` 
             }}
             className="slider-track"
           >
-            {pages.map((pageItems, pageIndex) => (
+            {applesList.map((apple, index) => (
               <div 
-                key={pageIndex} 
+                key={index} 
                 style={{ 
-                  display: 'flex',
-                  width: `${100 / pages.length}%`,
+                  width: `${100 / applesList.length}%`,
+                  padding: '0 0.75rem',
                   flexShrink: 0
                 }}
-                className="slider-page"
+                className="slider-slide"
               >
-                {pageItems.map((apple, index) => (
-                  <div 
-                    key={index} 
-                    style={{ 
-                      width: `${100 / visibleSlides}%`,
-                      padding: '0 0.75rem',
-                      flexShrink: 0
-                    }}
-                    className="slider-slide"
-                  >
-                    <div style={styles.card} className="slider-card glass">
-                      <div style={styles.imageContainer}>
-                        <Image 
-                          src={apple.img} 
-                          alt={apple.name} 
-                          fill 
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          style={{ objectFit: "cover" }} 
-                        />
-                      </div>
-                      <div style={styles.cardContent}>
-                        <div style={styles.cardHeader}>
-                          <h3 style={styles.cardTitle}>{apple.name}</h3>
-                          <span style={styles.varietyType}>{apple.type}</span>
-                        </div>
-                        <p style={styles.cardDesc}>{apple.desc}</p>
-                      </div>
-                    </div>
+                <div style={styles.card} className="slider-card glass">
+                  <div style={styles.imageContainer}>
+                    <Image 
+                      src={apple.img} 
+                      alt={apple.name} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      style={{ objectFit: "cover" }} 
+                    />
                   </div>
-                ))}
+                  <div style={styles.cardContent}>
+                    <div style={styles.cardHeader}>
+                      <h3 style={styles.cardTitle}>{apple.name}</h3>
+                      <span style={styles.varietyType}>{apple.type}</span>
+                    </div>
+                    <p style={styles.cardDesc}>{apple.desc}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -163,7 +147,7 @@ export default function AppleSlider() {
 
         {/* Dot Indicators */}
         <div style={styles.dotsContainer}>
-          {Array.from({ length: pages.length }).map((_, index) => (
+          {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button 
               key={index} 
               onClick={() => setCurrentIndex(index)}
@@ -216,7 +200,7 @@ const styles = {
     transition: 'var(--transition-normal)',
     backgroundColor: 'var(--color-bg-card)',
     border: '1px solid rgba(255,255,255,0.4)',
-    minHeight: '450px'
+    minHeight: '380px' // Reduced height slightly since metadata is gone
   },
   imageContainer: { position: 'relative', width: '100%', height: '240px', overflow: 'hidden' },
   cardContent: { padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: 1 },
@@ -224,10 +208,6 @@ const styles = {
   cardTitle: { fontSize: '1.35rem', color: 'var(--color-text-main)', marginBottom: 0, fontWeight: '700' },
   varietyType: { fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 'bold', padding: '0.2rem 0.6rem', backgroundColor: 'var(--color-primary-light)', borderRadius: '12px' },
   cardDesc: { fontSize: '0.95rem', color: 'var(--color-text-muted)', lineHeight: '1.5', flexGrow: 1, margin: 0 },
-  cardMeta: { display: 'flex', gap: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1rem', marginTop: 'auto' },
-  metaItem: { display: 'flex', flexDirection: 'column', gap: '0.15rem' },
-  metaLabel: { fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' },
-  metaValue: { fontSize: '0.95rem', color: 'var(--color-text-main)', fontWeight: '600' },
   dotsContainer: { display: 'flex', gap: '0.5rem', marginTop: '2rem', justifyContent: 'center' },
   dot: {
     height: '8px',
