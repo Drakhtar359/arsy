@@ -27,8 +27,8 @@ export default function About() {
 }
 
 const styles = {
-  aboutGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center', marginTop: '3rem' },
+  aboutGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(1.5rem, 5vw, 4rem)', alignItems: 'center', marginTop: '3rem' },
   textContainer: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
   paragraph: { fontSize: '1.125rem', lineHeight: 1.8},
-  imagePlaceholder: { width: '100%', height: '100%', minHeight: '350px', backgroundColor: 'var(--color-primary-light)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: 'var(--color-primary-dark)' }
+  imagePlaceholder: { width: '100%', height: '100%', minHeight: 'clamp(250px, 40vh, 350px)', backgroundColor: 'var(--color-primary-light)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: 'var(--color-primary-dark)' }
 }

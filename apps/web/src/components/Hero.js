@@ -41,12 +41,13 @@ const styles = {
   glassBox: { 
     textAlign: 'center', 
     maxWidth: '850px', 
-    padding: '4rem 3rem', 
+    width: '100%',
+    padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem)', 
     borderRadius: '24px',
     boxShadow: 'var(--shadow-lg)',
     overflow: 'hidden'
   },
-  title: { fontSize: '4rem', color: 'var(--color-text-main)', marginBottom: '1.5rem', lineHeight: 1.1 },
-  subtitle: { fontSize: '1.25rem', color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontWeight: 500 },
+  title: { fontSize: 'clamp(2.25rem, 6vw, 4rem)', color: 'var(--color-text-main)', marginBottom: '1.5rem', lineHeight: 1.1 },
+  subtitle: { fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontWeight: 500 },
   buttonGroup: { display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem' }
 }

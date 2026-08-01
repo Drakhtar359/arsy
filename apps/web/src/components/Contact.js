@@ -61,12 +61,12 @@ export default function Contact() {
 
 const styles = {
   contactWrapper: { display: 'flex', flexWrap: 'wrap', borderRadius: '24px', overflow: 'hidden', boxShadow: 'var(--shadow-lg)' },
-  infoSide: { flex: '1 1 350px', backgroundColor: 'var(--color-primary)', color: 'white', padding: '4rem 3rem' },
+  infoSide: { flex: '1 1 350px', backgroundColor: 'var(--color-primary)', color: 'white', padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem)' },
   subTitle: { fontSize: '2rem', marginBottom: '1rem', color: 'white' },
   desc: { marginBottom: '3rem', color: 'var(--color-primary-light)', fontSize: '1.1rem' },
   infoItem: { display: 'flex', gap: '1.5rem', marginBottom: '2rem', alignItems: 'center' },
   icon: { display: 'flex' },
-  formSide: { flex: '2 1 400px', padding: '4rem 3rem', backgroundColor: 'var(--color-bg-card)' },
+  formSide: { flex: '2 1 400px', padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem)', backgroundColor: 'var(--color-bg-card)' },
   form: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
   inputGroup: { display: 'flex', flexDirection: 'column', gap: '0.5rem' },
   label: { fontWeight: '600', fontSize: '0.9rem', color: 'var(--color-text-main)' }

@@ -8,13 +8,13 @@ export default function Navbar() {
   const { t, lang, toggleLang } = useLanguage();
 
   return (
-    <nav style={styles.nav} className="glass">
-      <div className="container" style={styles.navContainer}>
+    <nav style={styles.nav} className="glass nav-bar">
+      <div className="container nav-container" style={styles.navContainer}>
         <a href="#" style={styles.logoLink}>
           <Image src="/logo.png" alt="ARSY Frucht" width={60} height={60} style={styles.logoImg} />
         </a>
-        <div style={styles.rightSide}>
-          <div style={styles.navLinks}>
+        <div style={styles.rightSide} className="nav-right-side">
+          <div style={styles.navLinks} className="nav-links">
             <a href="#about" style={styles.link}>{t("nav.about")}</a>
             <a href="#products" style={styles.link}>{t("nav.products")}</a>
             <a href="#contact" style={styles.link}>{t("nav.contact")}</a>
@@ -34,8 +34,8 @@ const styles = {
   navContainer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   logoLink: { display: 'flex', alignItems: 'center' },
   logoImg: { objectFit: 'contain' },
-  rightSide: { display: 'flex', alignItems: 'center', gap: '2rem' },
-  navLinks: { display: 'flex', gap: '2rem', fontWeight: '500' },
+  rightSide: { display: 'flex', alignItems: 'center', gap: 'clamp(1rem, 3vw, 2rem)' },
+  navLinks: { display: 'flex', gap: 'clamp(1rem, 3vw, 2rem)', fontWeight: '500' },
   link: { transition: 'var(--transition-normal)' },
   langToggle: {
     display: 'flex',

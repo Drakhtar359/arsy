@@ -8,8 +8,8 @@ export default function Footer() {
 
   return (
     <footer style={styles.footer}>
-      <div className="container" style={styles.container}>
-        <div style={styles.brand}>
+      <div className="container footer-container" style={styles.container}>
+        <div style={styles.brand} className="footer-brand">
           <div style={styles.logoWrapper}>
             <Image src="/logo.png" alt="ARSY Frucht" width={90} height={90} style={{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
           </div>
