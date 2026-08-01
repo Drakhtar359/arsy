@@ -15,7 +15,7 @@ export default function About() {
           <p style={styles.paragraph} dangerouslySetInnerHTML={{ __html: t("about.p2") }}></p>
           <p style={{ ...styles.paragraph, color: 'var(--color-primary)', fontWeight: 600 }} dangerouslySetInnerHTML={{ __html: t("about.p3") }}></p>
         </div>
-        <div style={styles.imagePlaceholder}>
+        <div style={styles.imagePlaceholder} className="about-image-wrapper">
           <div>
              <Leaf size={64} color="var(--color-primary)" style={{ display: 'block', margin: '0 auto 1rem auto' }} />
              <h3>{t("about.flagText")}</h3>

@@ -412,5 +412,9 @@ img {
   .section {
     padding: 3.5rem 0 !important;
   }
+
+  .about-image-wrapper {
+    display: none !important;
+  }
 }
 
