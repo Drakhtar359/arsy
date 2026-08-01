@@ -17,16 +17,19 @@ export default function AppleSlider() {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
+  // Determine how many slides are visible per page based on viewport
   useEffect(() => {
     const handleResize = () => {
       let slides = 1;
       if (window.innerWidth >= 1024) {
-        slides = 3;
+        slides = 4; // 4 items per page on desktop
       } else if (window.innerWidth >= 640) {
-        slides = 2;
+        slides = 2; // 2 items per page on tablet (results in 4 pages)
       }
       setVisibleSlides(slides);
-      setCurrentIndex((prev) => Math.min(prev, Math.max(0, applesList.length - slides)));
+      
+      const pageCount = Math.ceil(applesList.length / slides);
+      setCurrentIndex((prev) => Math.min(prev, Math.max(0, pageCount - 1)));
     };
 
     handleResize();
@@ -34,30 +37,28 @@ export default function AppleSlider() {
     return () => window.removeEventListener("resize", handleResize);
   }, [applesList.length]);
 
+  // Group apples list into pages
+  const pages = [];
+  for (let i = 0; i < applesList.length; i += visibleSlides) {
+    pages.push(applesList.slice(i, i + visibleSlides));
+  }
+
+  // Auto-play cycling
   useEffect(() => {
-    if (!isPaused && applesList.length > 0) {
+    if (!isPaused && pages.length > 0) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) => {
-          const maxIndex = applesList.length - visibleSlides;
-          return prev >= maxIndex ? 0 : prev + 1;
-        });
+        setCurrentIndex((prev) => (prev >= pages.length - 1 ? 0 : prev + 1));
       }, 4000);
       return () => clearInterval(interval);
     }
-  }, [isPaused, visibleSlides, applesList.length]);
+  }, [isPaused, pages.length]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => {
-      const maxIndex = applesList.length - visibleSlides;
-      return prev === 0 ? maxIndex : prev - 1;
-    });
+    setCurrentIndex((prev) => (prev === 0 ? pages.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => {
-      const maxIndex = applesList.length - visibleSlides;
-      return prev >= maxIndex ? 0 : prev + 1;
-    });
+    setCurrentIndex((prev) => (prev === pages.length - 1 ? 0 : prev + 1));
   };
 
   const handleTouchStart = (e) => {
@@ -85,10 +86,7 @@ export default function AppleSlider() {
     setTouchEnd(null);
   };
 
-  if (!applesList || applesList.length === 0) return null;
-
-  const maxIndex = applesList.length - visibleSlides;
-  const dotsCount = maxIndex + 1;
+  if (!applesList || applesList.length === 0 || pages.length === 0) return null;
 
   return (
     <section id="apples" className="section container" style={styles.section}>
@@ -110,52 +108,66 @@ export default function AppleSlider() {
           <ChevronRight size={24} />
         </button>
 
-        {/* Carousel Track */}
+        {/* Carousel Track Container */}
         <div style={styles.trackContainer}>
           <div 
             style={{ 
               ...styles.track, 
-              transform: `translateX(-${currentIndex * (100 / visibleSlides)}%)`,
-              width: `${(applesList.length / visibleSlides) * 100}%` 
+              transform: `translateX(-${currentIndex * 100}%)`,
+              width: `${pages.length * 100}%` 
             }}
             className="slider-track"
           >
-            {applesList.map((apple, index) => (
+            {pages.map((pageItems, pageIndex) => (
               <div 
-                key={index} 
+                key={pageIndex} 
                 style={{ 
-                  width: `${100 / applesList.length}%` 
+                  display: 'flex',
+                  width: `${100 / pages.length}%`,
+                  flexShrink: 0
                 }}
-                className="slider-slide"
+                className="slider-page"
               >
-                <div style={styles.card} className="slider-card glass">
-                  <div style={styles.imageContainer}>
-                    <Image 
-                      src={apple.img} 
-                      alt={apple.name} 
-                      fill 
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      style={{ objectFit: "cover" }} 
-                    />
-                  </div>
-                  <div style={styles.cardContent}>
-                    <div style={styles.cardHeader}>
-                      <h3 style={styles.cardTitle}>{apple.name}</h3>
-                      <span style={styles.varietyType}>{apple.type}</span>
-                    </div>
-                    <p style={styles.cardDesc}>{apple.desc}</p>
-                    <div style={styles.cardMeta}>
-                      <div style={styles.metaItem}>
-                        <span style={styles.metaLabel}>{tasteLabel}:</span>
-                        <span style={styles.metaValue}>{apple.taste}</span>
+                {pageItems.map((apple, index) => (
+                  <div 
+                    key={index} 
+                    style={{ 
+                      width: `${100 / visibleSlides}%`,
+                      padding: '0 0.75rem',
+                      flexShrink: 0
+                    }}
+                    className="slider-slide"
+                  >
+                    <div style={styles.card} className="slider-card glass">
+                      <div style={styles.imageContainer}>
+                        <Image 
+                          src={apple.img} 
+                          alt={apple.name} 
+                          fill 
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          style={{ objectFit: "cover" }} 
+                        />
                       </div>
-                      <div style={styles.metaItem}>
-                        <span style={styles.metaLabel}>{harvestLabel}:</span>
-                        <span style={styles.metaValue}>{apple.harvest}</span>
+                      <div style={styles.cardContent}>
+                        <div style={styles.cardHeader}>
+                          <h3 style={styles.cardTitle}>{apple.name}</h3>
+                          <span style={styles.varietyType}>{apple.type}</span>
+                        </div>
+                        <p style={styles.cardDesc}>{apple.desc}</p>
+                        <div style={styles.cardMeta}>
+                          <div style={styles.metaItem}>
+                            <span style={styles.metaLabel}>{tasteLabel}:</span>
+                            <span style={styles.metaValue}>{apple.taste}</span>
+                          </div>
+                          <div style={styles.metaItem}>
+                            <span style={styles.metaLabel}>{harvestLabel}:</span>
+                            <span style={styles.metaValue}>{apple.harvest}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             ))}
           </div>
@@ -163,7 +175,7 @@ export default function AppleSlider() {
 
         {/* Dot Indicators */}
         <div style={styles.dotsContainer}>
-          {Array.from({ length: dotsCount }).map((_, index) => (
+          {Array.from({ length: pages.length }).map((_, index) => (
             <button 
               key={index} 
               onClick={() => setCurrentIndex(index)}
@@ -206,7 +218,6 @@ const styles = {
   },
   trackContainer: { width: '100%', overflow: 'hidden', padding: '1rem 0' },
   track: { display: 'flex', transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' },
-  slide: { padding: '0 0.75rem', flexShrink: 0 },
   card: {
     display: 'flex',
     flexDirection: 'column',
