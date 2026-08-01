@@ -9,9 +9,10 @@ export default function AppleSlider() {
   const { t } = useLanguage();
   const applesList = t("apples.items") || [];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
   const [visibleSlides, setVisibleSlides] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
@@ -26,8 +27,9 @@ export default function AppleSlider() {
       }
       setVisibleSlides(slides);
       
-      const maxIdx = applesList.length - slides;
-      setCurrentIndex((prev) => Math.min(prev, Math.max(0, maxIdx)));
+      // Initialize index to the start of real items (skipping clones)
+      setTransitionEnabled(false);
+      setCurrentIndex(slides);
     };
 
     handleResize();
@@ -35,24 +37,59 @@ export default function AppleSlider() {
     return () => window.removeEventListener("resize", handleResize);
   }, [applesList.length]);
 
-  const maxIndex = Math.max(0, applesList.length - visibleSlides);
-
-  // Auto-play cycling (one direction: forward/right)
+  // Re-enable transition after reset jumps
   useEffect(() => {
-    if (!isPaused && applesList.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-      }, 4000);
-      return () => clearInterval(interval);
+    if (!transitionEnabled) {
+      const timer = setTimeout(() => {
+        setTransitionEnabled(true);
+      }, 30);
+      return () => clearTimeout(timer);
     }
-  }, [isPaused, maxIndex, applesList.length]);
+  }, [transitionEnabled]);
+
+  // extendedList has cloned items at the beginning and the end for seamless looping
+  const extendedList = [
+    ...applesList.slice(-visibleSlides),
+    ...applesList,
+    ...applesList.slice(0, visibleSlides)
+  ];
+
+  const totalExtended = extendedList.length;
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+    if (!transitionEnabled) return;
+    setCurrentIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    if (!transitionEnabled) return;
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  // Auto-play cycling (one direction: forward/right)
+  useEffect(() => {
+    if (!isPaused && applesList.length > 0 && transitionEnabled) {
+      const interval = setInterval(() => {
+        handleNext();
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isPaused, applesList.length, transitionEnabled]);
+
+  const handleTransitionEnd = () => {
+    const realCount = applesList.length;
+    
+    // If we've scrolled past the last real item and finished animating the first clone
+    if (currentIndex >= realCount + visibleSlides) {
+      setTransitionEnabled(false);
+      setCurrentIndex(visibleSlides); // Jump back to the first real item instantly
+    }
+    
+    // If we've scrolled before the first real item and finished animating the last clone
+    if (currentIndex < visibleSlides) {
+      setTransitionEnabled(false);
+      setCurrentIndex(realCount + visibleSlides - 1); // Jump to the last real item instantly
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -107,16 +144,18 @@ export default function AppleSlider() {
           <div 
             style={{ 
               ...styles.track, 
-              transform: `translateX(-${currentIndex * (100 / applesList.length)}%)`,
-              width: `${(applesList.length / visibleSlides) * 100}%` 
+              transform: `translateX(-${currentIndex * (100 / totalExtended)}%)`,
+              width: `${(totalExtended / visibleSlides) * 100}%`,
+              transition: transitionEnabled ? 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
             }}
+            onTransitionEnd={handleTransitionEnd}
             className="slider-track"
           >
-            {applesList.map((apple, index) => (
+            {extendedList.map((apple, index) => (
               <div 
                 key={index} 
                 style={{ 
-                  width: `${100 / applesList.length}%`,
+                  width: `${100 / totalExtended}%`,
                   padding: '0 0.75rem',
                   flexShrink: 0
                 }}
@@ -147,19 +186,26 @@ export default function AppleSlider() {
 
         {/* Dot Indicators */}
         <div style={styles.dotsContainer}>
-          {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-            <button 
-              key={index} 
-              onClick={() => setCurrentIndex(index)}
-              style={{
-                ...styles.dot,
-                backgroundColor: currentIndex === index ? 'var(--color-primary)' : 'rgba(0,0,0,0.15)',
-                width: currentIndex === index ? '24px' : '8px'
-              }}
-              className="slider-dot"
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+          {Array.from({ length: applesList.length }).map((_, index) => {
+            // Determine active dot based on current index relative to real items
+            const activeIndex = (currentIndex - visibleSlides + applesList.length) % applesList.length;
+            return (
+              <button 
+                key={index} 
+                onClick={() => {
+                  if (!transitionEnabled) return;
+                  setCurrentIndex(index + visibleSlides);
+                }}
+                style={{
+                  ...styles.dot,
+                  backgroundColor: activeIndex === index ? 'var(--color-primary)' : 'rgba(0,0,0,0.15)',
+                  width: activeIndex === index ? '24px' : '8px'
+                }}
+                className="slider-dot"
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
@@ -189,7 +235,7 @@ const styles = {
     transition: 'var(--transition-bounce)'
   },
   trackContainer: { width: '100%', overflow: 'hidden', padding: '1rem 0' },
-  track: { display: 'flex', transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' },
+  track: { display: 'flex' },
   card: {
     display: 'flex',
     flexDirection: 'column',
@@ -200,7 +246,7 @@ const styles = {
     transition: 'var(--transition-normal)',
     backgroundColor: 'var(--color-bg-card)',
     border: '1px solid rgba(255,255,255,0.4)',
-    minHeight: '380px' // Reduced height slightly since metadata is gone
+    minHeight: '380px'
   },
   imageContainer: { position: 'relative', width: '100%', height: '240px', overflow: 'hidden' },
   cardContent: { padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: 1 },
