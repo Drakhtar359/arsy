@@ -198,7 +198,7 @@ const styles = {
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
-    justify-content: 'center',
+    justifyContent: 'center',
     cursor: 'pointer',
     zIndex: 10,
     boxShadow: 'var(--shadow-md)',
