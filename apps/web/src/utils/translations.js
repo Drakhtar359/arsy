@@ -49,6 +49,21 @@ export const translations = {
       fb: "Facebook Страница",
       rights: "Всички права запазени.",
       developedBy: "Разработено от"
+    },
+    apples: {
+      title: "Нашите Сортове Ябълки",
+      tasteLabel: "Вкус",
+      harvestLabel: "Беритба",
+      items: [
+        { name: "Гран Смит", type: "Granny Smith", desc: "Хрупкава, сочна и приятно кисела. Перфектна за освежаване.", taste: "Кисел", harvest: "Октомври", img: "/apple-granny.jpg" },
+        { name: "Златна Превъзходна", type: "Golden Delicious", desc: "Сладка, ароматна с тънка жълта кожа. Изключително нежна.", taste: "Сладък", harvest: "Септември", img: "/apple-golden.jpg" },
+        { name: "Червена Превъзходна", type: "Red Delicious", desc: "Класическа тъмночервена ябълка с плътна сладост и хрупкавост.", taste: "Сладък", harvest: "Септември", img: "/apple-red.jpg" },
+        { name: "Гала", type: "Gala", desc: "Приятно сладка, с фин аромат и красиви червено-оранжеви ивици.", taste: "Сладък / Слаб", harvest: "Август", img: "/apple-gala.jpg" },
+        { name: "Фуджи", type: "Fuji", desc: "Много сладка, плътна и трайна. Любима на малки и големи.", taste: "Много сладък", harvest: "Октомври", img: "/apple-fuji.jpg" },
+        { name: "Джонаголд", type: "Jonagold", desc: "Балансиран сладко-кисел вкус с хрупкава и сочна текстура.", taste: "Сладко-кисел", harvest: "Септември", img: "/apple-jonagold.jpg" },
+        { name: "Бребърн", type: "Braeburn", desc: "Свеж, пикантен вкус с високо съдържание на сок и хрупкаво месо.", taste: "Сладко-кисел", harvest: "Октомври", img: "/apple-braeburn.jpg" },
+        { name: "Муцу", type: "Mutsu", desc: "Едри плодове със сладко-кисел вкус и отлична дълготрайност.", taste: "Свеж / Сладък", harvest: "Октомври", img: "/apple-mutsu.jpg" }
+      ]
     }
   },
   en: {
@@ -101,6 +116,21 @@ export const translations = {
       fb: "Facebook Page",
       rights: "All rights reserved.",
       developedBy: "Developed by"
+    },
+    apples: {
+      title: "Our Apple Varieties",
+      tasteLabel: "Taste",
+      harvestLabel: "Harvest",
+      items: [
+        { name: "Granny Smith", type: "Granny Smith", desc: "Crisp, juicy and pleasantly tart. Perfect for refreshing.", taste: "Tart", harvest: "October", img: "/apple-granny.jpg" },
+        { name: "Golden Delicious", type: "Golden Delicious", desc: "Sweet, aromatic with a thin yellow skin. Exceptionally tender.", taste: "Sweet", harvest: "September", img: "/apple-golden.jpg" },
+        { name: "Red Delicious", type: "Red Delicious", desc: "Classic deep red apple with a rich sweetness and crunch.", taste: "Sweet", harvest: "September", img: "/apple-red.jpg" },
+        { name: "Gala", type: "Gala", desc: "Pleasantly sweet with a fine aroma and beautiful red-orange stripes.", taste: "Mildly Sweet", harvest: "August", img: "/apple-gala.jpg" },
+        { name: "Fuji", type: "Fuji", desc: "Very sweet, dense, and long-lasting. A favorite for everyone.", taste: "Very Sweet", harvest: "October", img: "/apple-fuji.jpg" },
+        { name: "Jonagold", type: "Jonagold", desc: "Balanced sweet-tart flavor with a crisp and juicy texture.", taste: "Sweet-tart", harvest: "September", img: "/apple-jonagold.jpg" },
+        { name: "Braeburn", type: "Braeburn", desc: "Fresh, tangy flavor with high juice content and firm flesh.", taste: "Sweet-tart", harvest: "October", img: "/apple-braeburn.jpg" },
+        { name: "Mutsu", type: "Mutsu", desc: "Large fruits with a sweet-tart taste and excellent shelf life.", taste: "Fresh & Sweet", harvest: "October", img: "/apple-mutsu.jpg" }
+      ]
     }
   }
 };

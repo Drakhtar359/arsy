@@ -420,3 +420,30 @@ img {
   }
 }
 
+/* Slider Nav Buttons hover styling */
+.slider-nav-btn:hover {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary-dark) !important;
+  transform: translateY(-50%) scale(1.1) !important;
+}
+
+.slider-nav-btn:active {
+  transform: translateY(-50%) scale(0.95) !important;
+}
+
+/* Slider Card hover effect */
+.slider-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg) !important;
+  border-color: var(--color-primary-light) !important;
+}
+
+/* Mobile responsive adjustments for slider navigation */
+@media (max-width: 1024px) {
+  .slider-nav-btn {
+    display: none !important;
+  }
+}
+
+
